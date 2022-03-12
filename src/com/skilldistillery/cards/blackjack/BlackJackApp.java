@@ -21,7 +21,7 @@ public class BlackJackApp {
 			if (awnser.equals("no")) {
 				wantToPlayAgain = false;
 			}
-			if(awnser.equals("yes")) {
+			if (awnser.equals("yes")) {
 				player.clear();
 				dealer.clear();
 			}
@@ -41,76 +41,23 @@ public class BlackJackApp {
 		// step 1 done.
 
 		// check dealer and player for 21
-		if (player.getHandValue() == 21) {
+		if (player.getHandValue() == 21 || dealer.getHandValue() == 21) {
 			if (player.isBlackjack() && dealer.isBlackjack()) {
-				System.out.println("You win!");
-				System.out.println("The Dealer had: " + dealer.toString());
-				System.out.println("You had:" + player.toString());
-
-			}
-			if (player.isBlackjack()) {
-				System.out.println("You win!");
-				System.out.println("The Dealer had: " + dealer.toString());
-				System.out.println("You had:" + player.toString());
-			}
-			if (dealer.isBlackjack()) {
-				System.out.println("You lose");
-				System.out.println("The Dealer had: " + dealer.toString());
-				System.out.println("You had:" + player.toString());
+				player.playerWin(dealer);
+				return;
+			} else if (player.isBlackjack()) {
+				player.playerWin(dealer);
+				return;
+			} else if (dealer.isBlackjack()) {
+				player.playerLoss(dealer);
+				return;
 			}
 		} else {
-			boolean canHit = true;
-			while (canHit) {
-				System.out.println("You have: " + player.toString());
-				System.out.println("Thats: " + player.getHandValue());
-				System.out.println("Do you want to hit or stay?");
-				System.out.println("(Hit or Stay)");
-				String hitorStay = input.next().toLowerCase();
-
-				switch (hitorStay) {
-				case "hit":
-					player.addCard(dealer.dealCard());
-					break;
-
-				case "stay":
-					canHit = false;
-					break;
-
-				}
-				if (player.isBust()) {
-					System.out.println("You lose");
-					System.out.println("The Dealer had: " + dealer.toString());
-					System.out.println("Thats: " + dealer.getHandValue());
-					System.out.println("You busted with:" + player.toString());
-					System.out.println("Thats: " + player.getHandValue());
-					canHit = false;
-					return;
-				}
-			}
-			boolean dealerCanHit = true;
-			while (dealerCanHit) {
-				if (dealer.getHandValue() < 17) {
-					dealer.addCard(dealer.dealCard());
-				} else {
-					dealerCanHit = false;
-				}
-			}
-			// comapare final values and see who wins
-			if (player.getHandValue() == dealer.getHandValue()) {
-
-			}
-			if (player.getHandValue() > dealer.getHandValue()) {
-				System.out.println("You win!");
-				System.out.println("The Dealer had: " + dealer.toString());
-				System.out.println("You had:" + player.toString());
-			}
-			if (dealer.getHandValue() > player.getHandValue()) {
-				System.out.println("You lose");
-				System.out.println("The Dealer had: " + dealer.toString());
-				System.out.println("You busted with:" + player.toString());
-			}
+			player.playerHit(dealer, input);
 		}
+		dealer.dealerHit(dealer);
 
+		finalCompare(dealer, player);
 	}
 
 	public BlackjackPlayer getPlayerName(Scanner input) {
@@ -118,6 +65,19 @@ public class BlackJackApp {
 		System.out.println("Whats your name?");
 		BlackjackPlayer player = new BlackjackPlayer(input.next());
 		return player;
+	}
+
+	public void finalCompare(BlackjackDealer dealer, BlackjackPlayer player) {
+		if (dealer.isBust()) {
+			player.playerWin(dealer);
+		} else if (player.getHandValue() == dealer.getHandValue()) {
+			player.playerWin(dealer);
+		} else if (player.getHandValue() > dealer.getHandValue()) {
+			player.playerWin(dealer);
+		} else if (dealer.getHandValue() > player.getHandValue()) {
+			player.playerLoss(dealer);
+		}
+
 	}
 
 }
