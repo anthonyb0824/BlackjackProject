@@ -17,12 +17,12 @@ public class BlackjackPlayer extends BlackjackHand {
 
 	public void playerWin(BlackjackDealer dealer) {
 		System.out.println("You win!");
-		System.out.println("The Dealer had: " + dealer.toString() + " Total: " + dealer.toString());
+		System.out.println("The Dealer had: " + dealer.toString() + " Total: " + dealer.getHandValue());
 		System.out.println("You had: " + this.toString() + " Total: " + this.getHandValue());
 
 	}
 
-	public void playerHit(BlackjackDealer dealer, Scanner input) {
+	public int playerHit(BlackjackDealer dealer, Scanner input) {
 		boolean playerCanHit = true;
 		while (playerCanHit) {
 			System.out.println("You have: " + this.toString() + " Total: " + this.getHandValue());
@@ -37,15 +37,16 @@ public class BlackjackPlayer extends BlackjackHand {
 
 			case "stay":
 				playerCanHit = false;
-				break;
+				return 0;
 
 			}
 			if (this.isBust()) {
 				this.playerLoss(dealer);
 				playerCanHit = false;
-				return;
+				return -1;
 			}
 		}
+		return 0;
 
 	}
 }
