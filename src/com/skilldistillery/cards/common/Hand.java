@@ -9,18 +9,22 @@ public abstract class Hand {
 	public Hand() {}
 	
 	public void  addCard(Card card) {
-		cards.add(card);
+		getCards().add(card);
 	}
 	
 	public void clear() {
-		cards.clear();
+		getCards().clear();
 	}
 	
 	public abstract int getHandValue();
 
 	@Override
 	public String toString() {
-		return "Hand [cards=" + cards + "]";
+		return "Hand [cards=" + getCards() + "]";
+	}
+
+	public List<Card> getCards() {
+		return cards;
 	}
 	
 
