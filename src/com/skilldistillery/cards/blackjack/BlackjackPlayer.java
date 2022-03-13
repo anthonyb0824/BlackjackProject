@@ -12,7 +12,7 @@ public class BlackjackPlayer extends BlackjackHand {
 	public void playerLoss(BlackjackDealer dealer) {
 		System.out.println("You lose");
 		System.out.println("The Dealer had: " + dealer.toString()+"Total: "+dealer.getHandValue());
-		System.out.println(this.name+" had:" + this.toString()+"Total:"+this.getHandValue());
+		System.out.println("You had:" + this.toString()+"Total:"+this.getHandValue());
 	}
 
 	public void playerWin(BlackjackDealer dealer) {

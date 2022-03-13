@@ -27,6 +27,7 @@ public class BlackJackApp {
 			}
 
 		} while (wantToPlayAgain);
+		input.close();
 
 	}
 
@@ -73,8 +74,7 @@ public class BlackJackApp {
 	public void finalCompare(BlackjackDealer dealer, BlackjackPlayer player) {
 		if (dealer.isBust()) {
 			player.playerWin(dealer);
-		}
-		else if (player.getHandValue() == dealer.getHandValue()) {
+		} else if (player.getHandValue() == dealer.getHandValue()) {
 			player.playerWin(dealer);
 		} else if (player.getHandValue() > dealer.getHandValue()) {
 			player.playerWin(dealer);
