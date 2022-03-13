@@ -16,16 +16,26 @@ public class BlackJackApp {
 		boolean wantToPlayAgain = true;
 		do {
 			app.run(input, dealer, player);
-			System.out.println("Do you want to play again?");
-			String awnser = input.next();
-			if (awnser.equals("no")) {
-				wantToPlayAgain = false;
+			boolean goodInput = false;
+			while (!goodInput) {
+				System.out.println("Do you want to play again?");
+				System.out.println("(Yes or No)");
+				String awnser = input.next().toLowerCase();
+				switch (awnser) {
+				case "yes":
+					player.clear();
+					dealer.clear();
+					goodInput = true;
+					break;
+				case "no":
+					wantToPlayAgain = false;
+					goodInput = true;
+					break;
+				default:
+					System.err.println("Invalid choice");
+					break;
+				}
 			}
-			if (awnser.equals("yes")) {
-				player.clear();
-				dealer.clear();
-			}
-
 		} while (wantToPlayAgain);
 		input.close();
 
@@ -34,12 +44,7 @@ public class BlackJackApp {
 	private void run(Scanner input, BlackjackDealer dealer, BlackjackPlayer player) {
 
 		// Set up give the player and dealer two cards.
-		dealer.shuffle();
-		player.addCard(dealer.dealCard());
-		player.addCard(dealer.dealCard());
-		dealer.addCard(dealer.dealCard());
-		dealer.addCard(dealer.dealCard());
-		// step 1 done.
+		setUp(dealer, player);
 
 		// check dealer and player for 21
 		if (player.getHandValue() == 21 || dealer.getHandValue() == 21) {
@@ -64,8 +69,16 @@ public class BlackJackApp {
 		finalCompare(dealer, player);
 	}
 
+	private void setUp(BlackjackDealer dealer, BlackjackPlayer player) {
+		dealer.shuffle();
+		player.addCard(dealer.dealCard());
+		player.addCard(dealer.dealCard());
+		dealer.addCard(dealer.dealCard());
+		dealer.addCard(dealer.dealCard());
+	}
+
 	public BlackjackPlayer getPlayerName(Scanner input) {
-		System.out.println("Welcome to ____ Casino");
+		System.out.println("Welcome to Lucky Casino");
 		System.out.println("Whats your name?");
 		BlackjackPlayer player = new BlackjackPlayer(input.next());
 		return player;

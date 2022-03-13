@@ -20,7 +20,7 @@ public abstract class Hand {
 
 	@Override
 	public String toString() {
-		return "Hand [cards=" + getCards() + "]";
+		return "Hand " + getCards();
 	}
 
 	public List<Card> getCards() {
